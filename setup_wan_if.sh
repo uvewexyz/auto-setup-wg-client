@@ -9,42 +9,57 @@
 echo "Saving all network informations and configurations before changes...";
 sleep 2;
 echo "Backup network configuration...";
-cp /etc/config/network /etc/config/network.bak$(date +%Y%m%d%);
-echo "Backup network configuration done, result: $(ls /etc/config/network.bak*)";
+cp /etc/config/network /etc/config/network$(date +%Y%m%d%).bak;
+echo "-----------------------------------------------------";
+echo -e "Backup network configuration done
+        Result: 
+        $(ls /etc/config/network*)\n";
+echo "------------------------------------------------------";
 sleep 2;
-
 
 echo "Show and save ip address information";
+echo "-----------------------------------------------------";
 ip addr show | tee /tmp/ip_addr$(date +%Y%m%d%).txt;
-echo "Show and save ip address information done, result: $(ls /tmp/ip_addr*)";
+echo -e "Show and save ip address information done
+        Result: 
+        $(ls /tmp/ip_addr*)\n";
+echo "------------------------------------------------------";
 sleep 2;
-
 
 echo "Show and save routing table";
+echo "-----------------------------------------------------";
 route -n | tee /tmp/route$(date +%Y%m%d%).txt;
-echo "Show and save routing table done, result: $(ls /tmp/route*)";
+echo -e "Show and save routing table done 
+        Result:
+        $(ls /tmp/route*)\n";
+echo "------------------------------------------------------";
 sleep 2;
+
 
 
 # Set up WAN connection
 echo "Setting up WAN connection...";
+echo "-----------------------------------------------------";
 sleep 2;
-uci set network.@device[0].name="wan";
-uci del network.lan
-uci set network.wan="interface"
-uci set network.wan.device="eth0"
-uci set network.wan.proto="dhcp"
-uci commit network
-echo "Successfully set up WAN connection, result:"
+uci -q set network.@device[0].name="wan";
+uci -q del network.lan;
+uci -q set network.wan="interface";
+uci -q set network.wan.device="eth0";
+uci -q set network.wan.proto="dhcp";
+uci -q commit network;
+echo "Successfully set up WAN connection. Result:"
 uci show network.wan;
+echo "-----------------------------------------------------";
+sleep 2;
 
-
+# Restart the network service
 echo "Restarting network service...";
+echo "-----------------------------------------------------";
 NET_SVC="/etc/init.d/network"
 if eval $NET_SVC status >/dev/null 2>&1; then
     echo "Network service state: Running";
     echo "Restarting network service";
-    sleep 2s;
+    sleep 2;
     eval $NET_SVC restart &;
     NET_PID=$!;
     wait $NET_PID;
@@ -53,27 +68,23 @@ else
     echo "WTF, network service is dead, need to be fixed";
     exit 1
 fi
-sleep 5s;
+sleep 5;
 
-
-echo "Check after configuration";
-sleep 2s;
-
-
+echo "-----------------------------------------------------";
 echo "Show route information:";
 route -n
-sleep 2s;
+sleep 2;
 
-
+echo "------------------------------------------------------";
 echo "Show ip address information:";
 ip addr show
-sleep 2s;
+sleep 2;
 
-
+echo "------------------------------------------------------";
 echo "Check ping connection";
-ping -c 5 8.8.8.8
-ping -c 5 google.com
-sleep 2s;
-
+ping -c 3 8.8.8.8
+sleep 8;
+ping -c 3 google.com
+sleep 8;
 
 echo "Set up WAN connection finished";
