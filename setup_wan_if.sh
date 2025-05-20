@@ -6,6 +6,7 @@
 
 # This script is used to set up a WAN interface in an OpenWRT VM.
 # I will use WAN connection only for testing purposes.
+echo "-----------------------------------------------------";
 echo "Saving all network informations and configurations before changes...";
 sleep 2;
 echo "Backup network configuration...";
@@ -70,7 +71,7 @@ sleep 5;
 
 echo "-----------------------------------------------------";
 echo "Show route information:";
-route -n
+route -n;
 sleep 5;
 
 echo "------------------------------------------------------";
@@ -85,4 +86,5 @@ sleep 8;
 ping -c 3 google.com
 sleep 5;
 
+echo "------------------------------------------------------";
 echo "Set up WAN connection finished";
