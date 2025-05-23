@@ -21,10 +21,10 @@ chmod +x setup_w* && ls -l
 
 3. Initiate with running the `setup_wan_if.sh` script. Because the eth0 or the interface connection(outbound) to my bridge doesn't have an IP address
 
-<a href="https://asciinema.org/a/fDzsfLBWLVree9vOtHdUhxjcU" target="_blank"><img src="https://asciinema.org/a/fDzsfLBWLVree9vOtHdUhxjcU.svg" /></a>
+![setup_wan_if](https://github.com/user-attachments/assets/1e1205b6-9e4d-46ac-b3f4-ca01eabff091)
 
 4. If you are successfully running the `setup_wan_if.sh` script and not the error output. Next, run the `setup_wg_client.sh` and remember to customize the var in the script and match the var with your WG server
 
-<a href="https://asciinema.org/a/WGHkMJlRmWJ4voazPJYiaZPAQ" target="_blank"><img src="https://asciinema.org/a/WGHkMJlRmWJ4voazPJYiaZPAQ.svg" /></a>
+![setup_wg_client](https://github.com/user-attachments/assets/cbf020a8-2d1f-403b-bebc-8135757787d6)
 
 5. Done
