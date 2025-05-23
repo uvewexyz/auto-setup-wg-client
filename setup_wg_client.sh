@@ -223,7 +223,7 @@ route -n | tee /tmp/routing_before$(date +%Y_%m_%d_%H_%M_%S).txt;
 sleep 2;
 ip route del default;
 ip route add default dev $WG_IF;
-ip route add 54.251.3.207/32 via $WAN_GTW dev $WAN_IF;
+ip route add <Your public ip>/32 via $WAN_GTW dev $WAN_IF;
 echo "---------------------------------------------------------------";
 echo "Successfully configured routing IP";
 echo "Result:";
