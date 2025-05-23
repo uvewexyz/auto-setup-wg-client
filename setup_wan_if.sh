@@ -20,6 +20,7 @@ sleep 5;
 echo "Show and save ip address information";
 echo "-----------------------------------------------------";
 ip addr show | tee /tmp/ip_addr$(date +%Y_%m_%d_%H_%M_%S).txt;
+echo "-----------------------------------------------------";
 echo "Show and save ip address information done. Result:" 
 echo "$(ls /tmp/ip_addr*)";
 echo "------------------------------------------------------";
@@ -28,12 +29,11 @@ sleep 5;
 echo "Show and save routing table";
 echo "-----------------------------------------------------";
 route -n | tee /tmp/route$(date +%Y_%m_%d_%H_%M_%S).txt;
+echo "-----------------------------------------------------";
 echo "Show and save routing table done. Result:"
 echo "$(ls /tmp/route*)";
 echo "------------------------------------------------------";
 sleep 5;
-
-
 
 # Set up WAN connection
 echo "Setting up WAN connection...";
@@ -45,7 +45,6 @@ uci -q set network.wan="interface";
 uci -q set network.wan.device="eth0";
 uci -q set network.wan.proto="dhcp";
 uci -q commit network;
-echo "-----------------------------------------------------";
 echo "Successfully set up WAN connection. Result:"
 uci show network.wan;
 sleep 5;
@@ -62,6 +61,7 @@ if eval $NET_SVC status >/dev/null 2>&1; then
     eval $NET_SVC restart &
     NET_PID=$!
     wait $NET_PID
+    echo "-----------------------------------------------------"
     echo "Network service successfully restarted"
 else
     echo "WTF, network service is dead, need to be fixed"
@@ -69,14 +69,14 @@ else
 fi
 sleep 5;
 
-echo "-----------------------------------------------------";
-echo "Show route information:";
-route -n;
-sleep 5;
-
 echo "------------------------------------------------------";
 echo "Show ip address information:";
 ip addr show eth0
+sleep 5;
+
+echo "-----------------------------------------------------";
+echo "Show route information:";
+route -n;
 sleep 5;
 
 echo "------------------------------------------------------";
