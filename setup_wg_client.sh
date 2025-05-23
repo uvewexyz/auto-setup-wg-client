@@ -13,23 +13,14 @@ WG_DIR="/etc/wireguard"
 WG_IF="wg0"
 
 ##############################################
-# You must choose between using the public IP 
-# with the WG_SERV variable or using the domain 
-# from your server WireGuard with the WG_DOM variable.
-# Select one and comment on the not selected variable. 
-# The default is using the WG_SERV variable. 
-# If you use the WG_DOM, please uncomment in the "Add VPN peers" section too. 
+# Recommendation guide:
+#
+# Please fill the WG_SERV var and the WG_DOM var 
+# with your public IP and sub or domain from your WG server.
 # Example:
 #
-# 1. Using the public IP as endpoint server.
 # WG_SERV="12.34.56.78"
-# #WG_DOM="www.example.com"
-# 2. Using the domain as endpoint:
-# #WG_SERV="12.34.56.78"
-# WG_DOM="www.example.com"
-#
-# Remember to pay attention in the variable WG_SERV and WG_DOM in "Add VPN peers" section.
-#
+# WG_DOM="www.uvewe.xyz"
 ##############################################
 
 # The public IP of your server WireGuard
@@ -42,7 +33,7 @@ WG_SERV=""
 WG_PORT="51820"
 
 # Matching with the WG ip interface in your server configuration!
-WG_ADDR="10.10.20.5/24"
+WG_ADDR=""
 
 # Matching with the Server public key!
 WG_SRV_PUB=""
@@ -223,7 +214,7 @@ route -n | tee /tmp/routing_before$(date +%Y_%m_%d_%H_%M_%S).txt;
 sleep 2;
 ip route del default;
 ip route add default dev $WG_IF;
-ip route add <Your public ip>/32 via $WAN_GTW dev $WAN_IF;
+ip route add $WG_SERV/32 via $WAN_GTW dev $WAN_IF;
 echo "---------------------------------------------------------------";
 echo "Successfully configured routing IP";
 echo "Result:";
@@ -245,7 +236,7 @@ echo "PublicKey = $WG_CLN_PUB";
 echo "AllowedIPs = 10.10.20.5/32";
 echo "After add the line above, restart the wg insterface in your server!";
 echo "---------------------------------------------------------------";
-read -p "If you have already added the line above, type 'y' to continue and type 'n' to exit and manually check: " RESPONSE;
+read -p "Type 'y' to continue and type 'n' to exit and manually check: " RESPONSE;
 if [ "$RESPONSE" == "y" ]; then
     echo "Continue to checking step"
     sleep 2
